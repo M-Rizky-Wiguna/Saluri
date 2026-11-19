@@ -289,6 +289,11 @@
                 <i class="bi bi-arrow-up-circle"></i>
                 <span>Kenaikan Kelas</span>
             </a>
+            <a class="nav-link {{ request()->routeIs('admin.jurusan.*') ? 'active' : '' }}"
+                href="{{ route('admin.jurusan.index') }}">
+                <i class="bi bi-diagram-3"></i>
+                <span>Kelola Jurusan</span>
+            </a>
             <a class="nav-link {{ request()->routeIs('admin.kelas.*') ? 'active' : '' }}"
                 href="{{ route('admin.kelas.index') }}">
                 <i class="bi bi-door-open-fill"></i>
@@ -323,10 +328,11 @@
                 <i class="bi bi-calendar-week"></i>
                 <span>Jadwal Guru</span>
             </a>
-            {{-- <a class="nav-link {{ request()->routeIs('admin.rekap-absensi.*') ? 'active' : '' }}" href="{{ route('admin.rekap-absensi.index') }}">
+            <a class="nav-link {{ request()->routeIs('admin.rekap-absensi.*') ? 'active' : '' }}"
+                href="{{ route('admin.rekap-absensi.index') }}">
                 <i class="bi bi-calendar-check"></i>
                 <span>Rekap Absensi</span>
-            </a> --}}
+            </a>
 
             <div class="nav-section-title mt-2">Akun</div>
             <a class="nav-link {{ request()->routeIs('admin.profil.*') ? 'active' : '' }}"
@@ -380,7 +386,7 @@
                 <div
                     class="d-none d-sm-flex align-items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-medium">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Tahun Ajaran 2024/2025</span>
+                    <span>Tahun Ajaran {{ $tahunAjaran }}</span>
                 </div>
 
                 <a class="d-flex align-items-center gap-2 text-decoration-none p-1 sm:p-1.5 rounded-lg hover:bg-slate-100 transition"
@@ -436,126 +442,7 @@
                 </div>
             @endif
 
-            {{-- Konten halaman; jika kosong, tampilkan preview dashboard default --}}
-            @hasSection('content')
-                @yield('content')
-            @else
-                <div class="space-y-6">
-                    <!-- Welcome Banner -->
-                    <div
-                        class="rounded-2xl bg-gradient-to-r from-blue-700 via-blue-600 to-sky-600 text-white p-5 sm:p-6 shadow-lg shadow-blue-500/20 relative overflow-hidden">
-                        <div class="relative z-10 max-w-2xl">
-                            <span
-                                class="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-sm inline-block mb-2">
-                                SMK Yadika Soreang Cloud Management
-                            </span>
-                            <h2 class="text-xl sm:text-2xl font-bold tracking-tight">Selamat Datang di Panel Super
-                                Admin</h2>
-                            <p class="text-blue-100 text-xs sm:text-sm mt-1 leading-relaxed">
-                                Pusat kendali operasional integrasi multi-modul: Praktik Kerja Lapangan (PKL), Sistem
-                                Penerimaan Murid Baru (SPMB), dan Learning Management System (LMS).
-                            </p>
-                        </div>
-                        <div class="absolute -right-10 -bottom-10 opacity-15 pointer-events-none">
-                            <i class="bi bi-shield-lock-fill text-9xl"></i>
-                        </div>
-                    </div>
-
-                    <!-- Metric Cards -->
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                        <div
-                            class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-medium text-slate-500">Total Siswa Aktif</span>
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                                    <i class="bi bi-people text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="text-xl sm:text-2xl font-bold text-slate-800">1,248</div>
-                            <div class="text-[11px] text-emerald-600 font-medium mt-1 flex items-center gap-1">
-                                <i class="bi bi-arrow-up-short text-base"></i> +32 siswa baru
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-medium text-slate-500">Guru &amp; Tenaga Didik</span>
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
-                                    <i class="bi bi-person-video3 text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="text-xl sm:text-2xl font-bold text-slate-800">86</div>
-                            <div class="text-[11px] text-slate-500 font-medium mt-1">12 Jurusan Terdaftar</div>
-                        </div>
-
-                        <div
-                            class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-medium text-slate-500">Presensi Hari Ini</span>
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                                    <i class="bi bi-broadcast text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="text-xl sm:text-2xl font-bold text-slate-800">97.4%</div>
-                            <div class="text-[11px] text-emerald-600 font-medium mt-1 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Presensi berjalan tertib
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-xs font-medium text-slate-500">Modul Terarsip</span>
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-                                    <i class="bi bi-archive text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="text-xl sm:text-2xl font-bold text-slate-800">342</div>
-                            <div class="text-[11px] text-amber-600 font-medium mt-1">18 revisi kurikulum</div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Action Grid -->
-                    <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-sm">
-                        <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                            <i class="bi bi-lightning-charge-fill text-amber-500"></i>
-                            Akses Cepat Pengelolaan
-                        </h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                            <a class="p-3 rounded-lg border border-slate-100 bg-slate-50/60 hover:bg-blue-50/60 hover:border-blue-200 transition text-decoration-none group"
-                                href="{{ route('admin.siswa.index') }}">
-                                <i
-                                    class="bi bi-person-lines-fill text-slate-600 group-hover:text-blue-600 text-lg"></i>
-                                <div class="text-xs font-semibold text-slate-800 mt-1.5">Input Siswa Baru</div>
-                                <div class="text-[10px] text-slate-500">Registrasi &amp; biodata</div>
-                            </a>
-                            <a class="p-3 rounded-lg border border-slate-100 bg-slate-50/60 hover:bg-blue-50/60 hover:border-blue-200 transition text-decoration-none group"
-                                href="{{ route('admin.jadwal.index') }}">
-                                <i class="bi bi-calendar-week text-slate-600 group-hover:text-blue-600 text-lg"></i>
-                                <div class="text-xs font-semibold text-slate-800 mt-1.5">Plot Jadwal Guru</div>
-                                <div class="text-[10px] text-slate-500">Kalender semester</div>
-                            </a>
-                            <a class="p-3 rounded-lg border border-slate-100 bg-slate-50/60 hover:bg-blue-50/60 hover:border-blue-200 transition text-decoration-none group"
-                                href="{{ route('admin.monitoring-presensi.index') }}">
-                                <i class="bi bi-broadcast text-slate-600 group-hover:text-blue-600 text-lg"></i>
-                                <div class="text-xs font-semibold text-slate-800 mt-1.5">Live Monitoring</div>
-                                <div class="text-[10px] text-slate-500">Kehadiran kelas &amp; PKL</div>
-                            </a>
-                            <a class="p-3 rounded-lg border border-slate-100 bg-slate-50/60 hover:bg-blue-50/60 hover:border-blue-200 transition text-decoration-none group"
-                                href="{{ route('admin.kenaikan-kelas.index') }}">
-                                <i class="bi bi-arrow-up-circle text-slate-600 group-hover:text-blue-600 text-lg"></i>
-                                <div class="text-xs font-semibold text-slate-800 mt-1.5">Kenaikan Kelas</div>
-                                <div class="text-[10px] text-slate-500">Proses evaluasi akhir</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @endif
+            @yield('content')
         </main>
     </div>
 

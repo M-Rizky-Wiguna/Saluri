@@ -26,6 +26,7 @@ class User extends Authenticatable
     protected $casts = [
         'is_active' => 'boolean',
         'is_super_admin' => 'boolean',
+        'must_change_password' => 'boolean',
     ];
 
     // ── Relasi ─────────────────────────────────────────────────

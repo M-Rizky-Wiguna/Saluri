@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            jurusanSeeder::class,
+            JurusanSeeder::class,
             KelasSeeder::class,          // rombel per jurusan & tingkat
                   // siswa per kelas — harus SEBELUM UserSeeder
             UserSeeder::class,  

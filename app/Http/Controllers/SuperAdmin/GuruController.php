@@ -78,6 +78,7 @@ class GuruController extends Controller
             'password' => Hash::make('password'),
             'is_active' => true,
             'is_super_admin' => false,
+            'must_change_password' => true,
         ]);
 
         $roleGuruLmsId = Role::whereHas('module', fn($m) => $m->where('kode', 'lms'))
@@ -133,9 +134,10 @@ class GuruController extends Controller
     {
         $guru->update([
             'password' => Hash::make('password'),
+            'must_change_password' => true,
         ]);
 
-        return back()->with('status', "Password {$guru->name} berhasil direset ke default: \"password\".");
+        return back()->with('status', "Password {$guru->name} berhasil direset ke default: \"password\". User akan diminta menggantinya saat login.");
     }
 
     /** Halaman kelola 1 guru: penugasan mengajar + wali kelas + kepala jurusan. */
@@ -422,6 +424,7 @@ class GuruController extends Controller
                         'password' => Hash::make('password'),
                         'is_active' => true,
                         'is_super_admin' => false,
+                        'must_change_password' => true,
                     ]);
                 }
 

@@ -49,49 +49,49 @@ class KelasController extends Controller
             ->with('success', 'Kelas "' . $data['nama_kelas'] . '" berhasil ditambahkan.');
     }
 
-    public function show(Kelas $kela)
+    public function show(Kelas $kelas)
     {
-        $kela->load(['jurusan', 'waliKelas', 'siswa' => function ($q) {
+        $kelas->load(['jurusan', 'waliKelas', 'siswa' => function ($q) {
             $q->orderBy('nama');
         }, 'pengampuMapel.mataPelajaran']);
 
-        return view('admin.kelas.show', ['kelas' => $kela]);
+        return view('admin.kelas.show', compact('kelas'));
     }
 
-    public function edit(Kelas $kela)
+    public function edit(Kelas $kelas)
     {
         $jurusanList = Jurusan::orderBy('nama')->get();
         $guruList = $this->guruList();
 
         return view('admin.kelas.edit', [
-            'kelas' => $kela,
+            'kelas' => $kelas,
             'jurusanList' => $jurusanList,
             'guruList' => $guruList,
         ]);
     }
 
-    public function update(Request $request, Kelas $kela)
+    public function update(Request $request, Kelas $kelas)
     {
-        $data = $this->validateData($request, $kela->id);
+        $data = $this->validateData($request, $kelas->id);
 
-        $kela->update($data);
+        $kelas->update($data);
 
         return redirect()
             ->route('admin.kelas.index')
             ->with('success', 'Kelas "' . $data['nama_kelas'] . '" berhasil diperbarui.');
     }
 
-    public function destroy(Kelas $kela)
+    public function destroy(Kelas $kelas)
     {
-        if ($kela->siswa()->exists()) {
+        if ($kelas->siswa()->exists()) {
             return back()->with(
                 'error',
-                'Kelas "' . $kela->nama_kelas . '" masih punya siswa terdaftar, pindahkan siswanya dulu sebelum menghapus kelas ini.'
+                'Kelas "' . $kelas->nama_kelas . '" masih punya siswa terdaftar, pindahkan siswanya dulu sebelum menghapus kelas ini.'
             );
         }
 
-        $nama = $kela->nama_kelas;
-        $kela->delete();
+        $nama = $kelas->nama_kelas;
+        $kelas->delete();
 
         return redirect()
             ->route('admin.kelas.index')
@@ -115,12 +115,17 @@ class KelasController extends Controller
     }
 
     /**
-     * Daftar user yang bisa dijadikan wali kelas.
-     * Sesuaikan filter ini kalau kamu punya kolom/relasi role khusus untuk guru.
+     * Daftar user yang bisa dijadikan wali kelas: guru aktif di modul LMS.
      */
     private function guruList()
     {
         return User::where('is_active', true)
+            ->whereHas('roles', function ($q) {
+                $q->where('kode', 'guru')
+                    ->whereHas('module', function ($m) {
+                        $m->where('kode', 'lms');
+                    });
+            })
             ->orderBy('name')
             ->get();
     }

@@ -59,6 +59,10 @@
                     <p class="small text-muted mt-2 mb-0">
                         <i class="bi bi-info-circle"></i> Kamu gak bisa cabut status Super Admin akun sendiri lewat sini (biar gak ke-lock out).
                     </p>
+                @elseif ($user->is_super_admin && $user->is_active && $sisaSuperAdmin <= 1)
+                    <p class="small text-warning mt-2 mb-0">
+                        <i class="bi bi-exclamation-triangle"></i> Ini satu-satunya Super Admin aktif, status tidak bisa dicabut.
+                    </p>
                 @endif
             </div>
         </div>
