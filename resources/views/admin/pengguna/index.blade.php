@@ -5,10 +5,15 @@
 @section('content')
     <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
         <h4 class="fw-bold mb-0">Kelola Pengguna</h4>
-        <form method="GET" class="d-flex gap-2">
-            <input type="text" name="q" value="{{ $q }}" class="form-control form-control-sm" placeholder="Cari nama/email...">
-            <button type="submit" class="btn btn-sm btn-outline-secondary">Cari</button>
-        </form>
+        <div class="d-flex gap-2">
+            <form method="GET" class="d-flex gap-2">
+                <input type="text" name="q" value="{{ $q }}" class="form-control form-control-sm" placeholder="Cari nama/email...">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Cari</button>
+            </form>
+            <a href="{{ route('admin.pengguna.create') }}" class="btn btn-sm btn-primary">
+                <i class="bi bi-person-plus me-1"></i> Tambah Pengguna
+            </a>
+        </div>
     </div>
 
     <div class="card border-0 shadow-sm">

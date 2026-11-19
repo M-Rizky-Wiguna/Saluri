@@ -37,7 +37,7 @@ use App\Http\Controllers\Mapping\PenempatanPklController;
 use App\Http\Controllers\Mapping\PengajuanPklPublicController;
 use App\Http\Controllers\Mapping\ProfileController as PklProfileController;
 use App\Http\Controllers\Mapping\SiswaController;
-use App\Http\Controllers\Mapping\SIswaPklController;
+use App\Http\Controllers\Mapping\SiswaPklController;
 use App\Http\Controllers\Mapping\TempatPklController;
 // SPMB
 use App\Http\Controllers\Spmb\Admin\PendaftarController as SpmbPendaftarController;
@@ -159,9 +159,9 @@ Route::prefix('pkl')->middleware('auth.pkl')->group(function () {
         ->name('siswa.belum-mengajukan');
 
     Route::middleware('role:siswa')->prefix('siswa-pkl')->name('siswa.pkl.')->group(function () {
-        Route::get('/status', [SIswaPklController::class, 'status'])->name('status');
-        Route::get('/ajukan', [SIswaPklController::class, 'create'])->name('create');
-        Route::post('/ajukan', [SIswaPklController::class, 'store'])->name('store');
+        Route::get('/status', [SiswaPklController::class, 'status'])->name('status');
+        Route::get('/ajukan', [SiswaPklController::class, 'create'])->name('create');
+        Route::post('/ajukan', [SiswaPklController::class, 'store'])->name('store');
     });
     Route::get('/profil', [PklProfileController::class, 'edit'])->name('pkl.profil.edit');
     Route::put('/profil', [PklProfileController::class, 'update'])->name('pkl.profil.update');
@@ -432,6 +432,8 @@ Route::prefix('admin')->name('admin.')->middleware('super.admin')->group(functio
     Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/pengguna', [SuperAdminPenggunaController::class, 'index'])->name('pengguna.index');
+    Route::get('/pengguna/create', [SuperAdminPenggunaController::class, 'create'])->name('pengguna.create');
+    Route::post('/pengguna', [SuperAdminPenggunaController::class, 'store'])->name('pengguna.store');
     Route::get('/pengguna/{user}/akses', [SuperAdminPenggunaController::class, 'akses'])->name('pengguna.akses');
     Route::put('/pengguna/{user}/akses', [SuperAdminPenggunaController::class, 'updateAkses'])->name('pengguna.akses.update');
     Route::get('/modul-ajar', [SuperAdminModulAjarController::class, 'index'])->name('modul-ajar.index');
@@ -488,7 +490,8 @@ Route::prefix('admin')->name('admin.')->middleware('super.admin')->group(functio
         Route::put('/{mataPelajaran}', [MataPelajaranController::class, 'update'])->name('update');
         Route::delete('/{mataPelajaran}', [MataPelajaranController::class, 'destroy'])->name('destroy');
     });
-    Route::resource('kelas', SuperAdminKelasController::class);
+    Route::resource('kelas', SuperAdminKelasController::class)
+        ->parameters(['kelas' => 'kelas']);
     Route::prefix('profil')->name('profil.')->group(function () {
         Route::get('/', [ProfilController::class, 'edit'])->name('edit');
         Route::put('/', [ProfilController::class, 'update'])->name('update');
@@ -497,8 +500,6 @@ Route::prefix('admin')->name('admin.')->middleware('super.admin')->group(functio
         Route::delete('/avatar', [ProfilController::class, 'deleteAvatar'])->name('avatar.delete');
     });
     Route::patch('/guru/{guru}/reset-password', [SuperAdminGuruController::class, 'resetPassword'])->name('guru.reset-password');
-    Route::get('/monitoring-presensi', [MonitoringPresensiController::class, 'index'])
-        ->name('monitoring-presensi.index');
     Route::get('/jadwal/pengaturan-jam', [PengaturanJamController::class, 'edit'])->name('jadwal.pengaturan-jam');
     Route::put('/jadwal/pengaturan-jam', [PengaturanJamController::class, 'update'])->name('jadwal.pengaturan-jam.update');
 

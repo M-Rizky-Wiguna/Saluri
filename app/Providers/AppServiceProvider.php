@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Jurusan;
 use App\Models\Mapping\PenempatanPkl;
+use App\Support\TahunAjaran;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::preventLazyLoading(!app()->isProduction());
         Paginator::useBootstrapFive();
+
+        View::composer('admin.*', function ($view) {
+            $view->with('tahunAjaran', TahunAjaran::sekarang());
+        });
 
         // Sidebar per-jurusan di panel admin SPMB selalu tersedia,
         // tanpa perlu di-pass manual dari setiap controller.

@@ -78,12 +78,13 @@ class SiswaImport implements ToCollection, WithChunkReading, SkipsEmptyRows
 
             \DB::transaction(function () use ($nis, $nama, $jkNorm, $alamat, $noHp, $kelas, $roleSiswaId) {
                 $userId = \DB::table('users')->insertGetId([
-                    'name'       => $nama,
-                    'email'      => $nis,
-                    'password'   => \Hash::make('password'),
-                    'is_active'  => true,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'name'                 => $nama,
+                    'email'                => $nis,
+                    'password'             => \Hash::make('password'),
+                    'is_active'            => true,
+                    'must_change_password' => true,
+                    'created_at'           => now(),
+                    'updated_at'           => now(),
                 ]);
 
                 if ($roleSiswaId) {

@@ -65,11 +65,12 @@ class SiswaController extends Controller
 
         DB::transaction(function () use ($data) {
             $user = User::create([
-                'name'           => $data['nama'],
-                'email'          => $data['nis'],
-                'password'       => Hash::make('password'),
-                'is_active'      => true,
-                'is_super_admin' => false,
+                'name'                 => $data['nama'],
+                'email'                => $data['nis'],
+                'password'             => Hash::make('password'),
+                'is_active'            => true,
+                'is_super_admin'       => false,
+                'must_change_password' => true,
             ]);
 
             $roleSiswaId = Role::whereHas('module', fn($m) => $m->where('kode', 'lms'))
@@ -153,9 +154,10 @@ class SiswaController extends Controller
 
         $user->update([
             'password' => Hash::make('password'),
+            'must_change_password' => true,
         ]);
 
-        return back()->with('success', "Password akun {$siswa->nama} berhasil direset ke default: \"password\".");
+        return back()->with('success', "Password akun {$siswa->nama} berhasil direset ke default: \"password\". User akan diminta menggantinya saat login.");
     }
     // ── Import Excel ──────────────────────────────────────────────────────────
 

@@ -24,6 +24,21 @@ class UserSeeder extends Seeder
             ]);
         }
 
+        $luthfyId = DB::table('users')->where('email', 'luthfy@smk.sch.id')->value('id');
+
+        if (!$luthfyId) {
+            DB::table('users')->insert([
+                'name' => 'luthfy',
+                'email' => 'luthfy@smk.sch.id',
+                'password' => Hash::make('password'),
+                'is_active' => true,
+                'is_super_admin' => true,
+                'must_change_password' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
         // Assign role admin (sesuaikan kode module & role-nya)
         $roleId = DB::table('roles')
             ->join('modules', 'modules.id', '=', 'roles.module_id')

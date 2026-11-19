@@ -13,7 +13,7 @@ class JurusanSeeder extends Seeder
             ->where('email', 'kajur@smk.sch.id')
             ->value('id');
 
-        DB::table('jurusan')->insert([
+        DB::table('jurusan')->insertOrIgnore([
             [
                 'nama' => 'Perhotelan',
                 'kode' => 'HTL',
@@ -24,7 +24,7 @@ class JurusanSeeder extends Seeder
             [
                 'nama' => 'Pengembangan Perangkat Lunak Dan Gim',
                 'kode' => 'PPLG',
-                'kepala_jurusan_id' => $kajurId,   // ← di sini datanya
+                'kepala_jurusan_id' => $kajurId,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
